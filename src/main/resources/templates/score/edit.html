@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑成绩</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>成绩管理系统 - 编辑成绩</h1>
+            <div class="user-info">
+                <a href="/score/myScores">返回成绩管理</a>
+                <a href="/logout" class="logout-btn">退出登录</a>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="page-header">
+                <h2>编辑成绩</h2>
+            </div>
+
+            <div class="form-container">
+                <form action="/score/update" method="post" class="form">
+                    <div class="form-group">
+                        <label for="scoreId">成绩ID:</label>
+                        <input type="text" id="scoreId" name="scoreId" th:value="${score.scoreId}" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="studentId">学生:</label>
+                        <select id="studentId" name="studentId" required>
+                            <option th:each="student : ${students}" 
+                                    th:value="${student.userId}" 
+                                    th:selected="${student.userId == score.studentId}"
+                                    th:text="${student.name} + ' (' + ${student.userId} + ')'">
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="examId">考试:</label>
+                        <select id="examId" name="examId" required>
+                            <option th:each="exam : ${exams}" 
+                                    th:value="${exam.examId}" 
+                                    th:selected="${exam.examId == score.examId}"
+                                    th:text="${exam.examName} + ' (' + ${#dates.format(exam.examDate, 'yyyy-MM-dd')} + ')'">
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="score">成绩:</label>
+                        <input type="number" id="score" name="score" step="0.01" min="0" max="100" 
+                               th:value="${score.score}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reason">修改原因:</label>
+                        <textarea id="reason" name="reason" rows="3" placeholder="请输入修改原因"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">更新成绩</button>
+                        <a href="/score/myScores" class="btn btn-secondary">取消</a>
+                    </div>
+                    
+                    <div th:if="${error}" class="error-message" th:text="${error}"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人信息 - 成绩管理系统</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <div class="card-header">
+                <h2>个人信息</h2>
+            </div>
+
+            <div class="profile-section">
+                <div class="profile-info">
+                    <div class="info-item">
+                        <label>用户ID：</label>
+                        <span th:text="${user.userId}"></span>
+                    </div>
+                    <div class="info-item">
+                        <label>用户名：</label>
+                        <span th:text="${user.username}"></span>
+                    </div>
+                    <div class="info-item">
+                        <label>姓名：</label>
+                        <span th:text="${user.name}"></span>
+                    </div>
+                    <div class="info-item">
+                        <label>角色：</label>
+                        <span class="role-badge" 
+                              th:classappend="${user.role == 'admin' ? 'admin' : (user.role == 'teacher' ? 'teacher' : 'student')}"
+                              th:text="${user.role == 'admin' ? '管理员' : (user.role == 'teacher' ? '教师' : '学生')}"></span>
+                    </div>
+                    <div class="info-item">
+                        <label>性别：</label>
+                        <span th:text="${user.gender}"></span>
+                    </div>
+                    <div class="info-item">
+                        <label>电话：</label>
+                        <span th:text="${user.phone}"></span>
+                    </div>
+                    <div class="info-item">
+                        <label>邮箱：</label>
+                        <span th:text="${user.email}"></span>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <a href="/user/editProfile" class="btn btn-primary">编辑个人信息</a>
+                    <a href="/main" class="btn btn-secondary">返回主页</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

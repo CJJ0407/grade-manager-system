@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成绩管理</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>成绩管理系统 - 成绩管理</h1>
+            <div class="user-info">
+                <a href="/main">返回主页</a>
+                <a href="/logout" class="logout-btn">退出登录</a>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="page-header">
+                <h2>成绩管理</h2>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>成绩ID</th>
+                            <th>学生姓名</th>
+                            <th>考试名称</th>
+                            <th>成绩</th>
+                            <th>录入人</th>
+                            <th>录入时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="score : ${scores}">
+                            <td th:text="${score.scoreId}"></td>
+                            <td th:text="${userMap[score.studentId]}"></td>
+                            <td th:text="${examMap[score.examId]}"></td>
+                            <td th:text="${score.score}"></td>
+                            <td th:text="${userMap[score.recordedBy]}"></td>
+                            <td th:text="${#dates.format(score.recordTime, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td>
+                                <a th:href="@{/score/edit/{scoreId}(scoreId=${score.scoreId})}" 
+                                   class="btn btn-sm btn-warning">编辑</a>
+                                <a th:href="@{/score/delete/{scoreId}(scoreId=${score.scoreId})}" 
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('确定要删除这个成绩吗？')">删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

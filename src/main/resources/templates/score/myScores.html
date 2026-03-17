@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的成绩</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>成绩管理系统 - 我的成绩</h1>
+            <div class="user-info">
+                <a href="/main">返回主页</a>
+                <a href="/logout" class="logout-btn">退出登录</a>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="page-header">
+                <h2>我的成绩</h2>
+                <a th:if="${user.role == 'teacher'}" href="/score/add" class="btn btn-primary">录入成绩</a>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>考试名称</th>
+                            <th th:if="${user.role != 'student'}">学生</th>
+                            <th>成绩</th>
+                            <th>录入时间</th>
+                            <th th:if="${user.role == 'teacher' || user.role == 'admin'}">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="score : ${scores}">
+                            <td th:text="${examMap[score.examId]}"></td>
+                            <td th:if="${user.role != 'student'}">
+                                <span th:text="${userMap[score.studentId]}"></span>
+                                <span style="opacity: 0.7" th:text="'（' + ${score.studentId} + '）'"></span>
+                            </td>
+                            <td th:text="${score.score}"></td>
+                            <td th:text="${#dates.format(score.recordTime, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:if="${user.role == 'teacher' || user.role == 'admin'}">
+                                <a th:href="@{/score/edit/{scoreId}(scoreId=${score.scoreId})}" 
+                                   class="btn btn-sm btn-warning">编辑</a>
+                                <a th:if="${user.role == 'teacher' || user.role == 'admin'}" 
+                                   th:href="@{/score/delete/{scoreId}(scoreId=${score.scoreId})}" 
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('确定要删除这个成绩吗？')">删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div th:if="${#lists.isEmpty(scores)}" class="empty-message">
+                    <p>暂无成绩记录</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

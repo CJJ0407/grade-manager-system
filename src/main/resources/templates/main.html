@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成绩管理系统-主页</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>成绩管理系统</h1>
+            <div class="user-info">
+                <span>欢迎，<span th:text="${user.name}">用户名</span></span>
+                <span class="role" th:text="${user.role == 'admin' ? '管理员' : (user.role == 'teacher' ? '教师' : '学生')}">角色</span>
+                <a href="/logout" class="logout-btn">退出登录</a>
+            </div>
+        </header>
+
+        <nav class="nav-menu">
+            <!-- 管理员菜单 -->
+            <div th:if="${user.role == 'admin'}">
+                <h3>管理员功能</h3>
+                <ul>
+                    <li><a href="/user/manage">用户管理</a></li>
+                    <li><a href="/subject/manage">科目管理</a></li>
+                    <li><a href="/exam/manage">考试管理</a></li>
+                    <li><a href="/score/manage">成绩管理</a></li>
+                    <li><a href="/ai/chat">🤖 AI学习助手</a></li>
+                </ul>
+            </div>
+
+            <!-- 教师菜单 -->
+            <div th:if="${user.role == 'teacher'}">
+                <h3>教师功能</h3>
+                <ul>
+                    <li><a href="/subject/mySubjects">我的科目</a></li>
+                    <li><a href="/exam/myExams">我的考试</a></li>
+                    <li><a href="/score/add">录入成绩</a></li>
+                    <li><a href="/score/myScores">成绩管理</a></li>
+                    <li><a href="/ai/chat">🤖 AI学习助手</a></li>
+                </ul>
+            </div>
+
+            <!-- 学生菜单 -->
+            <div th:if="${user.role == 'student'}">
+                <h3>学生功能</h3>
+                <ul>
+                    <li><a href="/score/myScores">我的成绩</a></li>
+                    <li><a href="/ai/chat">🤖 AI学习助手</a></li>
+                </ul>
+            </div>
+
+            <!-- 通用功能 -->
+            <div>
+                <h3>通用功能</h3>
+                <ul>
+                    <li><a href="/user/profile">个人信息</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="welcome-section">
+                <h2>欢迎使用成绩管理系统</h2>
+                <p>请选择左侧菜单中的功能进行操作</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
