@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考试管理</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>成绩管理系统 - 考试管理</h1>
+            <div class="user-info">
+                <a href="/main">返回主页</a>
+                <a href="/logout" class="logout-btn">退出登录</a>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="page-header">
+                <h2>考试管理</h2>
+                <a href="/exam/add" class="btn btn-primary">添加考试</a>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>考试ID</th>
+                            <th>考试名称</th>
+                            <th>考试日期</th>
+                            <th>学期</th>
+                            <th>科目名称</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="exam : ${exams}">
+                            <td th:text="${exam.examId}"></td>
+                            <td th:text="${exam.examName}"></td>
+                            <td th:text="${#dates.format(exam.examDate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${exam.semester}"></td>
+                            <td th:text="${subjectMap[exam.subjectId]}"></td>
+                            <td>
+                                <a th:href="@{/exam/edit/{examId}(examId=${exam.examId})}" 
+                                   class="btn btn-sm btn-warning">编辑</a>
+                                <a th:href="@{/exam/delete/{examId}(examId=${exam.examId})}" 
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('确定要删除这个考试吗？')">删除</a>
+                                <a th:href="@{/score/statistics/{examId}(examId=${exam.examId})}" 
+                                   class="btn btn-sm btn-info">统计</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
