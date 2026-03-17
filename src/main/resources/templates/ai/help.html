@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI助手使用帮助</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .help-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .help-section {
+            background: white;
+            margin-bottom: 20px;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .help-section h3 {
+            color: #007bff;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .feature-list li:before {
+            content: "✅ ";
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .example-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .example-question {
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .example-answer {
+            color: #28a745;
+            margin-top: 5px;
+        }
+        
+        .quick-start {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .quick-start h2 {
+            margin-bottom: 15px;
+        }
+        
+        .start-chat-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .start-chat-btn:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>AI助手使用帮助</h1>
+            <div class="user-info">
+                <span>欢迎，<span th:text="${user.name}"></span></span>
+                <a href="/main">返回主页</a>
+                <a href="/logout" class="logout-btn">退出登录</a>
+            </div>
+        </header>
+
+        <div class="help-container">
+            <div class="quick-start">
+                <h2>🤖 AI学习助手</h2>
+                <p>您的专属学习助手，24小时在线为您答疑解惑！</p>
+                <a href="/ai/chat" class="start-chat-btn">开始对话</a>
+            </div>
+
+            <div class="help-section">
+                <h3>🎯 功能介绍</h3>
+                <ul class="feature-list">
+                    <li>智能问答：回答关于成绩、考试、科目等问题</li>
+                    <li>学习指导：提供学习建议和方法</li>
+                    <li>系统帮助：解答系统使用相关问题</li>
+                    <li>24小时在线：随时为您服务</li>
+                    <li>个性化回复：根据您的问题提供针对性答案</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>💡 使用示例</h3>
+                
+                <div class="example-box">
+                    <div class="example-question">问：如何查看我的成绩？</div>
+                    <div class="example-answer">答：您可以在主页点击"我的成绩"模块，那里会显示您的所有考试成绩、考试名称、分数和录入时间等信息。</div>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-question">问：什么时候有考试？</div>
+                    <div class="example-answer">答：考试信息可以在"我的考试"模块中查看，包括考试时间、科目、学期等详细信息。</div>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-question">问：我的科目有哪些？</div>
+                    <div class="example-answer">答：您可以在"我的科目"模块中查看您所学的所有科目，包括科目名称、学分、任课教师等信息。</div>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-question">问：如何修改个人信息？</div>
+                    <div class="example-answer">答：您可以在"个人信息"模块中查看和修改您的个人资料，包括姓名、性别、电话、邮箱等信息。</div>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>🔧 使用技巧</h3>
+                <ul class="feature-list">
+                    <li>问题要具体：越具体的问题，AI给出的答案越准确</li>
+                    <li>使用关键词：如"成绩"、"考试"、"科目"等关键词</li>
+                    <li>可以问操作问题：如"怎么查看"、"如何修改"等</li>
+                    <li>支持中文提问：完全支持中文对话</li>
+                    <li>可以连续对话：支持多轮对话交流</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>❓ 常见问题</h3>
+                <ul class="feature-list">
+                    <li><strong>AI回答不准确怎么办？</strong> 请尝试用更具体的问题重新提问</li>
+                    <li><strong>AI服务不可用？</strong> 系统会提供默认的智能回复</li>
+                    <li><strong>可以问哪些问题？</strong> 主要关于成绩管理系统的使用和功能</li>
+                    <li><strong>AI会记住对话吗？</strong> 每次对话都是独立的，不会保存历史</li>
+                    <li><strong>如何获得更好体验？</strong> 使用清晰、具体的问题描述</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>🚀 开始使用</h3>
+                <p>现在就开始体验AI学习助手吧！点击下方按钮进入对话界面：</p>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="/ai/chat" class="btn" style="padding: 12px 30px; font-size: 16px;">开始与AI对话</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

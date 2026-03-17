@@ -1,0 +1,340 @@
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .chat-wrapper {
+            padding: 2rem;
+        }
+        
+        .chat-box {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .chat-messages {
+            height: 450px;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            max-width: 75%;
+            word-wrap: break-word;
+            line-height: 1.6;
+        }
+        
+        .user-message {
+            background-color: #3498db;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .ai-message {
+            background-color: white;
+            color: #333;
+            margin-right: auto;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .quick-questions-panel {
+            padding: 20px;
+            background-color: #fafafa;
+        }
+
+        .quick-title {
+            font-size: 15px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .quick-category {
+            margin-bottom: 15px;
+        }
+
+        .quick-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .category-name {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .quick-btn {
+            padding: 6px 12px;
+            background-color: white;
+            border: 1px solid #bdc3c7;
+            color: #2c3e50;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        
+        .quick-btn:hover {
+            background-color: #3498db;
+            border-color: #3498db;
+            color: white;
+        }
+
+        .input-area {
+            padding: 20px;
+            background-color: white;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .question-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #ecf0f1;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .question-input:focus {
+            border-color: #3498db;
+        }
+        
+        .submit-btn {
+            padding: 10px 25px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .submit-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .thinking {
+            display: none;
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            color: #7f8c8d;
+            font-style: italic;
+            text-align: center;
+            border-top: 1px solid #ecf0f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>成绩管理系统 - AI学习助手</h1>
+            <div class="user-info">
+                <a href="/main">返回主页</a>
+                <a href="/logout" class="logout-btn">退出登录</a>
+            </div>
+        </header>
+
+        <div class="chat-wrapper">
+            <div class="page-header">
+                <h2>🤖 AI学习助手</h2>
+            </div>
+
+            <div class="chat-box">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="ai-message">
+                        <strong>AI 助手：</strong>您好！我是基于 DeepSeek AI 的智能助手。我可以帮您解答各种问题：
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>🧮 数学计算</li>
+                            <li>📚 学习方法和建议</li>
+                            <li>💻 编程问题</li>
+                            <li>🕐 时间查询</li>
+                            <li>💡 生活小贴士</li>
+                            <li>📊 系统使用帮助</li>
+                        </ul>
+                        您可以直接输入问题，或者点击下方的快捷问题提问！
+                    </div>
+                </div>
+
+                <div class="quick-questions-panel">
+                    <div class="quick-title">⚡ 快捷问题（点击发送）</div>
+
+                    <div class="quick-category">
+                        <div class="category-name">系统使用</div>
+                        <div class="quick-buttons">
+                            <button class="quick-btn" onclick="quickAsk('怎么查看我的成绩')">查看成绩</button>
+                            <button class="quick-btn" onclick="quickAsk('怎么添加考试')">添加考试</button>
+                            <button class="quick-btn" onclick="quickAsk('怎么修改成绩')">修改成绩</button>
+                            <button class="quick-btn" onclick="quickAsk('怎么退出登录')">退出登录</button>
+                        </div>
+                    </div>
+
+                    <div class="quick-category">
+                        <div class="category-name">数学计算</div>
+                        <div class="quick-buttons">
+                            <button class="quick-btn" onclick="quickAsk('1+1 等于几')">1+1=?</button>
+                            <button class="quick-btn" onclick="quickAsk('2+2 等于几')">2+2=?</button>
+                            <button class="quick-btn" onclick="quickAsk('5+5 等于几')">5+5=?</button>
+                            <button class="quick-btn" onclick="quickAsk('10+10 等于几')">10+10=?</button>
+                        </div>
+                    </div>
+
+                    <div class="quick-category">
+                        <div class="category-name">日常问候</div>
+                        <div class="quick-buttons">
+                            <button class="quick-btn" onclick="quickAsk('你好')">你好</button>
+                            <button class="quick-btn" onclick="quickAsk('早上好')">早上好</button>
+                            <button class="quick-btn" onclick="quickAsk('谢谢')">谢谢</button>
+                            <button class="quick-btn" onclick="quickAsk('再见')">再见</button>
+                        </div>
+                    </div>
+
+                    <div class="quick-category">
+                        <div class="category-name">学习建议</div>
+                        <div class="quick-buttons">
+                            <button class="quick-btn" onclick="quickAsk('如何提高学习成绩')">提高成绩</button>
+                            <button class="quick-btn" onclick="quickAsk('怎么记住英语单词')">记单词</button>
+                        </div>
+                    </div>
+
+                    <div class="quick-category">
+                        <div class="category-name">生活常识</div>
+                        <div class="quick-buttons">
+                            <button class="quick-btn" onclick="quickAsk('感冒了怎么办')">感冒</button>
+                            <button class="quick-btn" onclick="quickAsk('失眠怎么办')">失眠</button>
+                            <button class="quick-btn" onclick="quickAsk('电脑开不了机怎么办')">电脑故障</button>
+                            <button class="quick-btn" onclick="quickAsk('网络连接不上怎么办')">网络问题</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <input type="text" id="questionInput" class="question-input"
+                           placeholder="请输入您的问题..." maxlength="500">
+                    <button id="sendBtn" class="submit-btn" onclick="sendQuestion()">发送</button>
+                </div>
+
+                <div class="thinking" id="loadingIndicator">
+                    AI 正在思考中...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const questionInput = document.getElementById('questionInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // 快捷提问函数
+        function quickAsk(question) {
+            sendQuestion(question);
+        }
+
+        // 回车发送消息
+        questionInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendQuestion();
+            }
+        });
+
+        function sendQuestion(customQuestion = null) {
+            const question = customQuestion || questionInput.value.trim();
+            if (!question) {
+                alert('请输入问题！');
+                return;
+            }
+
+            // 添加用户消息
+            addMessage(question, 'user');
+
+            // 如果不是自定义问题，清空输入框
+            if (!customQuestion) {
+                questionInput.value = '';
+            }
+            
+            // 显示加载状态
+            showLoading();
+            
+            // 发送请求
+            fetch('/ai/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'question=' + encodeURIComponent(question)
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                if (data.status === 'success') {
+                    addMessage(data.answer, 'ai');
+                } else {
+                    addMessage('抱歉，AI 服务暂时不可用，请稍后再试。', 'ai');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                addMessage('网络错误，请检查网络连接后重试。', 'ai');
+                console.error('Error:', error);
+            });
+        }
+
+
+        function addMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            
+            if (type === 'user') {
+                messageDiv.innerHTML = `<strong>您：</strong>${message}`;
+            } else {
+                messageDiv.innerHTML = `<strong>AI 助手：</strong>${message}`;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showLoading() {
+            sendBtn.disabled = true;
+            sendBtn.textContent = '发送中...';
+            loadingIndicator.style.display = 'block';
+        }
+
+        function hideLoading() {
+            sendBtn.disabled = false;
+            sendBtn.textContent = '发送';
+            loadingIndicator.style.display = 'none';
+        }
+
+        // 页面加载完成后聚焦输入框
+        window.onload = function() {
+            questionInput.focus();
+        };
+    </script>
+</body>
+</html>
