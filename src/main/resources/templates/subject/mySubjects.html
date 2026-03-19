@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的科目</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>成绩管理系统 - 我的科目</h1>
+            <div class="user-info">
+                <a href="/main">返回主页</a>
+                <a href="/logout" class="logout-btn">退出登录</a>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="page-header">
+                <h2>我的科目</h2>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>科目ID</th>
+                            <th>科目名称</th>
+                            <th>学分</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="subject : ${subjects}">
+                            <td th:text="${subject.subjectId}"></td>
+                            <td th:text="${subject.subjectName}"></td>
+                            <td th:text="${subject.credit}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div th:if="${#lists.isEmpty(subjects)}" class="empty-message">
+                    <p>您还没有教授任何科目</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
